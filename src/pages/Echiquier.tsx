@@ -84,7 +84,8 @@ export const Echiquier = () => {
       {/* Board */}
       <div className="relative mt-10">
         <div
-          className="relative w-full h-[55vh] md:h-[70vh] outline-none"
+          className="relative w-full h-[55vh] md:h-[70vh] outline-none transition-opacity duration-700"
+          style={{ opacity: selectedId ? 0.55 : 1 }}
           tabIndex={0}
           role="application"
           aria-label="Échiquier interactif des six axes du programme. Utilisez les flèches pour naviguer entre les pièces, Entrée pour sélectionner."

@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PieceDispatcher } from './PieceDispatcher';
@@ -190,30 +190,6 @@ export const ChessboardScene = ({ onSelect, selectedAxeId, externalHoverId }: Pr
         />
       ))}
       <CameraDirector target={cameraTarget} reduce={reduce} />
-      <FadeOutOnSelect active={!!selectedAxeId} />
     </Canvas>
   );
-};
-
-const FadeOutOnSelect = ({ active }: { active: boolean }) => {
-  const { gl } = useThree();
-  const [opacity, setOpacity] = useState(0);
-
-  useFrame(() => {
-    setOpacity((o) => {
-      const target = active ? 1 : 0;
-      return THREE.MathUtils.lerp(o, target, 0.06);
-    });
-    gl.domElement.style.transition = 'opacity 200ms';
-  });
-
-  useEffect(() => {
-    if (active) {
-      gl.domElement.style.filter = `brightness(${1 - opacity * 0.4})`;
-    } else {
-      gl.domElement.style.filter = 'brightness(1)';
-    }
-  }, [active, opacity, gl]);
-
-  return null;
 };
