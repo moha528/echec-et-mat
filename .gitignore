@@ -8,6 +8,9 @@ dist-ssr
 .env.*
 !.env.example
 
+# TS incremental build cache
+*.tsbuildinfo
+
 # IDE
 .idea
 .vscode/*
