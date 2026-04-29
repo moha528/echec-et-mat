@@ -6,6 +6,7 @@ import { PieceDispatcher } from './PieceDispatcher';
 import { Lights } from './Lights';
 import { prefersReducedMotion, isLowEndDevice } from '@/lib/theme';
 import type { PieceKind } from '@/data/axes';
+import { useForceCanvasResize } from './useForceCanvasResize';
 
 const StaticPiece = ({
   kind,
@@ -16,16 +17,17 @@ const StaticPiece = ({
   highlight: boolean;
   paused: boolean;
 }) => {
+  useForceCanvasResize();
   const group = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
     if (paused || !group.current) return;
-    group.current.rotation.y += delta * (Math.PI * 2) / 60;
+    group.current.rotation.y += delta * (Math.PI * 2) / 80;
   });
   return (
     <group ref={group} position={[0, 0, 0]} rotation={[0, -0.4, 0]}>
       <PieceDispatcher
         kind={kind}
-        scale={2}
+        scale={1.5}
         color={highlight ? '#c9a961' : '#f5e6c8'}
       />
     </group>
@@ -46,15 +48,16 @@ export const PieceShowcase = ({
     <Canvas
       shadows={!lowEnd}
       dpr={[1, 1.5]}
-      camera={{ position: [1, 2.2, 4], fov: 32 }}
+      camera={{ position: [0.6, 1.7, 4.2], fov: 28 }}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
       style={{ width: '100%', height: '100%' }}
+      onCreated={({ camera }) => camera.lookAt(0, 0.95, 0)}
     >
       <Lights lowEnd={lowEnd} shadows={!lowEnd} />
       <StaticPiece kind={kind} highlight={highlight} paused={reduce} />
       <ContactShadows
         position={[0, 0, 0]}
-        opacity={0.5}
+        opacity={0.55}
         scale={4}
         blur={2.6}
         far={4}

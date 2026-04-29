@@ -160,6 +160,15 @@ html {
   }
 }
 
+/* Force any R3F-rendered canvas to fill its wrapping div.
+   Works around ResizeObserver miss on initial mount in some browser
+   environments (Lazy + Suspense + AnimatePresence). */
+canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
 html.lenis,
 html.lenis body {
   height: auto;

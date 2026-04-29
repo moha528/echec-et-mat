@@ -88,17 +88,20 @@ export const Home = () => {
           </div>
         </div>
 
-        {/* Scroll cue */}
+        {/* Scroll cue — anchored bottom-right (desktop) / center under content (mobile) */}
         <button
           type="button"
           onClick={scrollToIntro}
           aria-label="Faire défiler vers la suite"
-          className="group absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3 px-3 py-2 text-bone-3 hover:text-bronze focus-visible:text-bronze transition-colors"
+          className="group absolute z-20 flex flex-col items-center gap-3 px-3 py-2 text-bone-3 hover:text-bronze focus-visible:text-bronze transition-colors bottom-3 right-5 sm:bottom-6 sm:right-8 md:right-10 lg:right-16"
         >
           <span className="text-[0.625rem] tracking-eyebrow uppercase">
-            Faites défiler
+            Défiler
           </span>
-          <span aria-hidden className="block h-9 w-px bg-current relative">
+          <span
+            aria-hidden
+            className="block h-9 w-px bg-current relative overflow-hidden"
+          >
             <span className="absolute inset-x-[-3px] top-0 h-2 bg-current animate-[scrollcue_2.4s_cubic-bezier(0.22,1,0.36,1)_infinite]" />
           </span>
         </button>

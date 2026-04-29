@@ -31,42 +31,52 @@ export const AxeDetail = () => {
   return (
     <article className="pt-24">
       {/* Header */}
-      <header className="relative min-h-[60vh] overflow-hidden">
-        <span
-          aria-hidden
-          className="absolute -bottom-6 -left-2 md:left-4 font-display text-ink-3 select-none pointer-events-none leading-none"
-          style={{ fontSize: 'clamp(8rem, 18vw, 16rem)', fontWeight: 500 }}
-        >
-          {axe.number}
-        </span>
-
-        <div
-          aria-hidden
-          className="absolute inset-0 md:inset-y-0 md:left-1/2 md:right-0"
-        >
-          <Suspense fallback={null}>
-            <PieceShowcase kind={axe.piece} highlight={axe.highlight} />
-          </Suspense>
-        </div>
-
-        <div className="relative z-10 max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16 pt-20 md:pt-28">
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={stagger(0.1, 0.08)}
-            className="max-w-[40rem]"
-          >
-            <motion.div variants={fadeUp}>
-              <Eyebrow className="mb-5">{axe.pieceLabel}</Eyebrow>
-            </motion.div>
-            <motion.h1
-              variants={fadeUp}
-              className="font-display text-bone tracking-tightest"
-              style={{ fontSize: 'clamp(3rem, 7vw, 6rem)', fontWeight: 400 }}
+      <header className="relative overflow-hidden">
+        <div className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16 pt-12 md:pt-20 pb-16 md:pb-24 grid md:grid-cols-12 gap-8 md:gap-10 items-center">
+          {/* Text col with watermark number */}
+          <div className="md:col-span-7 relative">
+            <span
+              aria-hidden
+              className="absolute -top-6 md:-top-10 left-0 font-display text-ink-3 select-none pointer-events-none leading-none -z-0"
+              style={{
+                fontSize: 'clamp(7rem, 16vw, 14rem)',
+                fontWeight: 500,
+              }}
             >
-              {axe.title}
-            </motion.h1>
-          </motion.div>
+              {axe.number}
+            </span>
+
+            <motion.div
+              initial="hidden"
+              animate="show"
+              variants={stagger(0.1, 0.08)}
+              className="relative z-10 pt-16 md:pt-24"
+            >
+              <motion.div variants={fadeUp}>
+                <Eyebrow className="mb-5">{axe.pieceLabel}</Eyebrow>
+              </motion.div>
+              <motion.h1
+                variants={fadeUp}
+                className="font-display text-bone tracking-tightest"
+                style={{
+                  fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)',
+                  fontWeight: 400,
+                }}
+              >
+                {axe.title}
+              </motion.h1>
+            </motion.div>
+          </div>
+
+          {/* 3D piece col */}
+          <div
+            aria-hidden
+            className="md:col-span-5 relative h-[42vh] sm:h-[48vh] md:h-[60vh]"
+          >
+            <Suspense fallback={null}>
+              <PieceShowcase kind={axe.piece} highlight={axe.highlight} />
+            </Suspense>
+          </div>
         </div>
       </header>
 

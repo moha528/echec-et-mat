@@ -5,6 +5,7 @@ import { PieceDispatcher } from './PieceDispatcher';
 import { Lights } from './Lights';
 import { prefersReducedMotion, isLowEndDevice } from '@/lib/theme';
 import type { PieceKind } from '@/data/axes';
+import { useForceCanvasResize } from './useForceCanvasResize';
 
 const Spinner = ({
   kind,
@@ -17,6 +18,7 @@ const Spinner = ({
   spinning: boolean;
   reduce: boolean;
 }) => {
+  useForceCanvasResize();
   const group = useRef<THREE.Group>(null);
   const targetSpeed = useRef(0);
 

@@ -5,10 +5,12 @@ import * as THREE from 'three';
 import { King } from '@/lib/chess-pieces/King';
 import { Lights } from './Lights';
 import { prefersReducedMotion, isLowEndDevice } from '@/lib/theme';
+import { useForceCanvasResize } from './useForceCanvasResize';
 
 const ROTATION_PERIOD = 45; // seconds for full rotation — slower, more confident
 
 const RotatingKing = ({ paused }: { paused: boolean }) => {
+  useForceCanvasResize();
   const group = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
     if (paused || !group.current) return;
@@ -16,7 +18,7 @@ const RotatingKing = ({ paused }: { paused: boolean }) => {
   });
   return (
     <group ref={group} position={[0, 0, 0]}>
-      <King color="#f5e6c8" scale={2.4} />
+      <King color="#f5e6c8" scale={1.6} />
     </group>
   );
 };
@@ -29,10 +31,10 @@ export const HeroScene = () => {
     <Canvas
       shadows={!lowEnd}
       dpr={[1, 1.5]}
-      camera={{ position: [0.2, 2.6, 4.6], fov: 32 }}
+      camera={{ position: [0.4, 3.2, 7.2], fov: 28 }}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
       style={{ width: '100%', height: '100%' }}
-      onCreated={({ camera }) => camera.lookAt(0, 1.6, 0)}
+      onCreated={({ camera }) => camera.lookAt(0, 1.4, 0)}
     >
       <color attach="background" args={['#0a0a0a']} />
       <Lights lowEnd={lowEnd} shadows={!lowEnd} />

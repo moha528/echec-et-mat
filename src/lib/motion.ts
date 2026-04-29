@@ -27,15 +27,13 @@ export const stagger = (delayChildren = 0.1, staggerChildren = 0.08): Variants =
 });
 
 export const routeFade: Variants = {
-  hidden: { opacity: 0, scale: 0.985 },
+  hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    scale: 1,
     transition: { duration: 0.6, ease: eaze },
   },
   exit: {
     opacity: 0,
-    scale: 1.005,
-    transition: { duration: 0.4, ease: eaze },
+    transition: { duration: 0.3, ease: eaze },
   },
 };

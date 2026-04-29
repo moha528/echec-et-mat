@@ -1,4 +1,11 @@
-import { Suspense, lazy, useEffect, useState, useCallback } from 'react';
+import {
+  Suspense,
+  lazy,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eyebrow } from '@/components/Eyebrow';
@@ -6,6 +13,7 @@ import { ChessNotation } from '@/components/ChessNotation';
 import { axes } from '@/data/axes';
 import { fadeUp, stagger } from '@/lib/motion';
 import { prefersReducedMotion } from '@/lib/theme';
+import { lenisScrollTo } from '@/lib/lenis';
 
 const ChessboardScene = lazy(() =>
   import('@/components/three/ChessboardScene').then((m) => ({
@@ -18,6 +26,7 @@ export const Echiquier = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [focusIndex, setFocusIndex] = useState<number>(-1);
+  const boardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.title = 'Échiquier — Six axes du programme';
@@ -26,12 +35,20 @@ export const Echiquier = () => {
   const triggerSelect = useCallback(
     (id: string) => {
       if (selectedId) return;
-      setSelectedId(id);
       const reduce = prefersReducedMotion();
-      const delay = reduce ? 200 : 1400;
+      // 1. Scroll smooth to canvas so user sees the cinematic camera move
+      if (boardRef.current) {
+        lenisScrollTo(boardRef.current, -64);
+      }
+      // 2. After scroll settles, start camera transition
+      const scrollSettle = reduce ? 0 : 700;
       window.setTimeout(() => {
-        navigate(`/echiquier/${id}`);
-      }, delay);
+        setSelectedId(id);
+        const cameraDuration = reduce ? 200 : 1400;
+        window.setTimeout(() => {
+          navigate(`/echiquier/${id}`);
+        }, cameraDuration);
+      }, scrollSettle);
     },
     [navigate, selectedId],
   );
@@ -82,9 +99,9 @@ export const Echiquier = () => {
       </div>
 
       {/* Board */}
-      <div className="relative mt-10">
+      <div ref={boardRef} className="relative mt-10 scroll-mt-24">
         <div
-          className="relative w-full h-[55vh] md:h-[70vh] outline-none transition-opacity duration-700"
+          className="relative w-full h-[60vh] md:h-[75vh] outline-none transition-opacity duration-700"
           style={{ opacity: selectedId ? 0.55 : 1 }}
           tabIndex={0}
           role="application"
