@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Eyebrow } from '@/components/Eyebrow';
-import { formation, postes } from '@/data/parcours';
+import { formation, postes, bio } from '@/data/parcours';
 import { realisations } from '@/data/realisations';
 import { fadeUp, stagger } from '@/lib/motion';
 
@@ -56,11 +56,9 @@ export const Candidat = () => {
               </motion.h1>
               <motion.p
                 variants={fadeUp}
-                className="font-display italic text-bone-2 mt-8 text-[1.125rem] leading-[1.7] max-w-prose2"
+                className="text-bone-2 mt-8 text-[1.0625rem] leading-[1.8] max-w-prose2"
               >
-                « Une candidature, c’est un trait à jouer. La mienne se prépare
-                depuis longtemps — chaque poste occupé, chaque projet conduit,
-                chaque mandat tenu. »
+                {bio}
               </motion.p>
             </motion.div>
           </div>
@@ -129,7 +127,6 @@ export const Candidat = () => {
                 </div>
               </motion.li>
             ))}
-            {/* TODO: postes 3+ à fournir par l'utilisateur */}
           </ol>
         </div>
       </section>

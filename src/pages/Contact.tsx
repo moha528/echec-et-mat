@@ -5,12 +5,10 @@ import { CTA } from '@/components/CTA';
 import { Icon } from '@/components/Icon';
 import { fadeUp, stagger } from '@/lib/motion';
 
-// TODO: email du candidat à fournir par l'utilisateur
 const CANDIDATE_EMAIL = 'contact@bayethiam.sn';
-// TODO: URL groupe WhatsApp EEM à fournir
-const WHATSAPP_GROUP_URL = '#';
-// TODO: URL publique de la liste EEM à fournir
-const LIST_PAGE_URL = '#';
+const WHATSAPP_DIRECT_URL = 'https://wa.me/221779331767';
+const WHATSAPP_GROUP_URL =
+  'https://chat.whatsapp.com/FmTdNVOgAFFKkfp3emqHj4';
 
 export const Contact = () => {
   const [name, setName] = useState('');
@@ -94,7 +92,7 @@ export const Contact = () => {
           <ul className="space-y-1">
             <li>
               <a
-                href="https://wa.me/221779331767"
+                href={WHATSAPP_DIRECT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-4 py-5 border-b border-line text-bone-2 hover:text-bronze transition-colors"
@@ -126,17 +124,13 @@ export const Contact = () => {
             </li>
             <li>
               <a
-                href={LIST_PAGE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`mailto:${CANDIDATE_EMAIL}`}
                 className="group flex items-center gap-4 py-5 border-b border-line text-bone-2 hover:text-bronze transition-colors"
               >
-                <Icon name="link" size={18} className="text-bronze" />
-                <span className="font-display text-[1.25rem]">
-                  Page publique de la liste
-                </span>
-                <span className="ml-auto text-[0.6875rem] tracking-eyebrow uppercase text-bone-3 group-hover:text-bronze">
-                  Visiter
+                <Icon name="mail" size={18} className="text-bronze" />
+                <span className="font-display text-[1.25rem]">Email direct</span>
+                <span className="ml-auto text-[0.8125rem] font-mono text-bone-3 group-hover:text-bronze">
+                  {CANDIDATE_EMAIL}
                 </span>
               </a>
             </li>
