@@ -10,27 +10,36 @@ export type ChessPieceProps = {
   children?: ReactNode;
 };
 
-const BASE_RADIUS_BOTTOM = 0.34;
-const BASE_RADIUS_TOP = 0.32;
-const BASE_HEIGHT = 0.1;
-const COLLAR_HEIGHT = 0.04;
-const COLLAR_RADIUS = 0.28;
+const BASE_R_BOTTOM = 0.36;
+const BASE_R_TOP = 0.32;
+const BASE_H = 0.08;
+const PLATE_H = 0.04;
+const PLATE_R = 0.3;
+const COLLAR_H = 0.05;
+const COLLAR_R = 0.22;
 
 export const PieceMaterial = ({ color }: { color: string }) => (
-  <meshStandardMaterial color={color} roughness={0.45} metalness={0.06} />
+  <meshStandardMaterial color={color} roughness={0.35} metalness={0.08} />
 );
 
 export const PieceBase = ({ color }: { color: string }) => (
   <group>
-    <mesh position={[0, BASE_HEIGHT / 2, 0]} castShadow receiveShadow>
-      <cylinderGeometry args={[BASE_RADIUS_TOP, BASE_RADIUS_BOTTOM, BASE_HEIGHT, 32]} />
+    {/* Foot */}
+    <mesh position={[0, BASE_H / 2, 0]} castShadow receiveShadow>
+      <cylinderGeometry args={[BASE_R_TOP, BASE_R_BOTTOM, BASE_H, 36]} />
       <PieceMaterial color={color} />
     </mesh>
-    <mesh position={[0, BASE_HEIGHT + COLLAR_HEIGHT / 2, 0]} castShadow>
-      <cylinderGeometry args={[COLLAR_RADIUS, BASE_RADIUS_TOP - 0.01, COLLAR_HEIGHT, 32]} />
+    {/* Plate */}
+    <mesh position={[0, BASE_H + PLATE_H / 2, 0]} castShadow>
+      <cylinderGeometry args={[PLATE_R, BASE_R_TOP, PLATE_H, 36]} />
+      <PieceMaterial color={color} />
+    </mesh>
+    {/* Collar (ring shoulder) */}
+    <mesh position={[0, BASE_H + PLATE_H + COLLAR_H / 2, 0]} castShadow>
+      <cylinderGeometry args={[COLLAR_R, PLATE_R - 0.02, COLLAR_H, 36]} />
       <PieceMaterial color={color} />
     </mesh>
   </group>
 );
 
-export const PIECE_BASE_TOP = BASE_HEIGHT + COLLAR_HEIGHT;
+export const PIECE_BASE_TOP = BASE_H + PLATE_H + COLLAR_H;

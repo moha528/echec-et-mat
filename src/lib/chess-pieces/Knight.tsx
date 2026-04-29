@@ -6,43 +6,84 @@ export const Knight = ({
   color = '#f5e6c8',
   scale = 1,
 }: ChessPieceProps) => {
-  const stemH = 0.42;
-  const stemY = PIECE_BASE_TOP + stemH / 2;
-  const neckY = PIECE_BASE_TOP + stemH + 0.05;
+  const stemH = 0.38;
+  const stemBase = PIECE_BASE_TOP;
+  const stemTop = stemBase + stemH;
+  const neckBaseY = stemTop + 0.05;
 
   return (
     <group position={position} rotation={rotation} scale={scale}>
       <PieceBase color={color} />
-      <mesh position={[0, stemY, 0]} castShadow>
-        <cylinderGeometry args={[0.16, 0.18, stemH, 24]} />
+      {/* Stem */}
+      <mesh position={[0, stemBase + stemH / 2, 0]} castShadow>
+        <cylinderGeometry args={[0.16, 0.18, stemH, 28]} />
         <PieceMaterial color={color} />
       </mesh>
-      {/* Neck (angled forward) */}
-      <mesh position={[0.06, neckY + 0.18, 0]} rotation={[0, 0, -0.35]} castShadow>
-        <boxGeometry args={[0.18, 0.4, 0.22]} />
+      {/* Collar */}
+      <mesh position={[0, stemTop, 0]} castShadow>
+        <cylinderGeometry args={[0.2, 0.16, 0.06, 24]} />
+        <PieceMaterial color={color} />
+      </mesh>
+      {/* Neck — angled forward (back arched) */}
+      <mesh
+        position={[0.04, neckBaseY + 0.22, 0]}
+        rotation={[0, 0, -0.25]}
+        castShadow
+      >
+        <boxGeometry args={[0.18, 0.5, 0.24]} />
+        <PieceMaterial color={color} />
+      </mesh>
+      {/* Mane (triangular crest behind) */}
+      <mesh
+        position={[-0.08, neckBaseY + 0.46, 0]}
+        rotation={[0, 0, 0.45]}
+        castShadow
+      >
+        <boxGeometry args={[0.1, 0.32, 0.2]} />
+        <PieceMaterial color={color} />
+      </mesh>
+      {/* Mane tip (small) */}
+      <mesh
+        position={[-0.13, neckBaseY + 0.58, 0]}
+        rotation={[0, 0, 0.55]}
+        castShadow
+      >
+        <boxGeometry args={[0.08, 0.18, 0.16]} />
         <PieceMaterial color={color} />
       </mesh>
       {/* Head */}
-      <mesh position={[0.18, neckY + 0.4, 0]} rotation={[0, 0, -0.5]} castShadow>
-        <boxGeometry args={[0.32, 0.18, 0.2]} />
+      <mesh
+        position={[0.16, neckBaseY + 0.56, 0]}
+        rotation={[0, 0, -0.35]}
+        castShadow
+      >
+        <boxGeometry args={[0.34, 0.2, 0.22]} />
         <PieceMaterial color={color} />
       </mesh>
       {/* Snout */}
-      <mesh position={[0.32, neckY + 0.34, 0]} rotation={[0, 0, -0.3]} castShadow>
-        <boxGeometry args={[0.18, 0.12, 0.16]} />
+      <mesh
+        position={[0.32, neckBaseY + 0.48, 0]}
+        rotation={[0, 0, -0.2]}
+        castShadow
+      >
+        <boxGeometry args={[0.18, 0.14, 0.18]} />
         <PieceMaterial color={color} />
       </mesh>
-      {/* Mane */}
-      <mesh position={[-0.05, neckY + 0.42, 0]} rotation={[0, 0, 0.3]} castShadow>
-        <boxGeometry args={[0.12, 0.26, 0.18]} />
+      {/* Ears (2 small triangles) */}
+      <mesh position={[0.08, neckBaseY + 0.74, 0.07]} rotation={[0, 0, -0.3]} castShadow>
+        <coneGeometry args={[0.04, 0.1, 4]} />
         <PieceMaterial color={color} />
       </mesh>
-      {/* Eye */}
-      <mesh position={[0.22, neckY + 0.42, 0.11]}>
+      <mesh position={[0.08, neckBaseY + 0.74, -0.07]} rotation={[0, 0, -0.3]} castShadow>
+        <coneGeometry args={[0.04, 0.1, 4]} />
+        <PieceMaterial color={color} />
+      </mesh>
+      {/* Eyes */}
+      <mesh position={[0.24, neckBaseY + 0.56, 0.115]}>
         <sphereGeometry args={[0.018, 8, 8]} />
         <meshStandardMaterial color="#0a0a0a" roughness={1} />
       </mesh>
-      <mesh position={[0.22, neckY + 0.42, -0.11]}>
+      <mesh position={[0.24, neckBaseY + 0.56, -0.115]}>
         <sphereGeometry args={[0.018, 8, 8]} />
         <meshStandardMaterial color="#0a0a0a" roughness={1} />
       </mesh>

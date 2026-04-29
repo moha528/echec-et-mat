@@ -6,41 +6,48 @@ export const King = ({
   color = '#f5e6c8',
   scale = 1,
 }: ChessPieceProps) => {
-  const stemH = 0.55;
-  const stemY = PIECE_BASE_TOP + stemH / 2;
-  const bellyR = 0.22;
-  const bellyY = PIECE_BASE_TOP + stemH + bellyR * 0.7;
-  const collarH = 0.04;
-  const collarY = bellyY + bellyR * 0.7 + collarH / 2;
-  const crossBaseY = collarY + collarH / 2 + 0.08;
+  const stemH = 0.7;
+  const stemBase = PIECE_BASE_TOP;
+  const stemTop = stemBase + stemH;
+  // Belly (orb) sits on stem
+  const orbR = 0.2;
+  const orbY = stemTop + orbR * 0.85;
+  // Crown plate
+  const plateY = orbY + orbR * 0.85 + 0.025;
+  const crossBaseY = plateY + 0.05 + 0.13;
   const crossArmY = crossBaseY + 0.13;
 
   return (
     <group position={position} rotation={rotation} scale={scale}>
       <PieceBase color={color} />
-      {/* Stem */}
-      <mesh position={[0, stemY, 0]} castShadow>
-        <cylinderGeometry args={[0.13, 0.18, stemH, 24]} />
+      {/* Tapered stem */}
+      <mesh position={[0, stemBase + stemH / 2, 0]} castShadow>
+        <cylinderGeometry args={[0.1, 0.18, stemH, 28]} />
         <PieceMaterial color={color} />
       </mesh>
-      {/* Belly */}
-      <mesh position={[0, bellyY, 0]} castShadow>
-        <sphereGeometry args={[bellyR, 24, 16]} />
+      {/* Mid ring */}
+      <mesh position={[0, stemBase + stemH * 0.55, 0]} castShadow>
+        <torusGeometry args={[0.13, 0.018, 10, 28]} />
         <PieceMaterial color={color} />
       </mesh>
-      {/* Top collar */}
-      <mesh position={[0, collarY, 0]} castShadow>
-        <cylinderGeometry args={[0.18, 0.18, collarH, 24]} />
+      {/* Orb (head) */}
+      <mesh position={[0, orbY, 0]} castShadow>
+        <sphereGeometry args={[orbR, 28, 20]} />
+        <PieceMaterial color={color} />
+      </mesh>
+      {/* Plate base for cross */}
+      <mesh position={[0, plateY, 0]} castShadow>
+        <cylinderGeometry args={[0.13, 0.16, 0.05, 24]} />
         <PieceMaterial color={color} />
       </mesh>
       {/* Cross — vertical */}
       <mesh position={[0, crossBaseY, 0]} castShadow>
-        <boxGeometry args={[0.06, 0.26, 0.06]} />
+        <boxGeometry args={[0.05, 0.28, 0.05]} />
         <PieceMaterial color={color} />
       </mesh>
       {/* Cross — horizontal */}
       <mesh position={[0, crossArmY, 0]} castShadow>
-        <boxGeometry args={[0.18, 0.06, 0.06]} />
+        <boxGeometry args={[0.18, 0.05, 0.05]} />
         <PieceMaterial color={color} />
       </mesh>
     </group>

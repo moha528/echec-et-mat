@@ -6,44 +6,59 @@ export const Queen = ({
   color = '#f5e6c8',
   scale = 1,
 }: ChessPieceProps) => {
-  const stemH = 0.6;
-  const stemY = PIECE_BASE_TOP + stemH / 2;
-  const bellyR = 0.2;
-  const bellyY = PIECE_BASE_TOP + stemH + bellyR * 0.6;
-  const crownY = bellyY + bellyR * 0.7 + 0.04;
-  const finialY = crownY + 0.1;
+  const stemH = 0.72;
+  const stemBase = PIECE_BASE_TOP;
+  const stemTop = stemBase + stemH;
+  const orbR = 0.18;
+  const orbY = stemTop + orbR * 0.85;
+  const crownPlateY = orbY + orbR * 0.85 + 0.02;
+  const teethY = crownPlateY + 0.06;
 
-  const teeth = Array.from({ length: 8 }, (_, i) => {
-    const a = (i / 8) * Math.PI * 2;
-    const r = 0.2;
-    return [Math.cos(a) * r, crownY, Math.sin(a) * r] as [number, number, number];
+  const teethCount = 9;
+  const teeth = Array.from({ length: teethCount }, (_, i) => {
+    const a = (i / teethCount) * Math.PI * 2;
+    const r = 0.18;
+    return [Math.cos(a) * r, teethY, Math.sin(a) * r] as [number, number, number];
   });
 
   return (
     <group position={position} rotation={rotation} scale={scale}>
       <PieceBase color={color} />
-      <mesh position={[0, stemY, 0]} castShadow>
-        <cylinderGeometry args={[0.11, 0.17, stemH, 24]} />
+      {/* Tapered stem */}
+      <mesh position={[0, stemBase + stemH / 2, 0]} castShadow>
+        <cylinderGeometry args={[0.09, 0.17, stemH, 28]} />
         <PieceMaterial color={color} />
       </mesh>
-      <mesh position={[0, bellyY, 0]} castShadow>
-        <sphereGeometry args={[bellyR, 20, 14]} />
+      {/* Lower ring */}
+      <mesh position={[0, stemBase + 0.18, 0]} castShadow>
+        <torusGeometry args={[0.14, 0.018, 10, 28]} />
         <PieceMaterial color={color} />
       </mesh>
-      {/* Crown ring */}
-      <mesh position={[0, crownY, 0]} castShadow>
-        <torusGeometry args={[0.2, 0.025, 12, 24]} />
+      {/* Upper ring */}
+      <mesh position={[0, stemTop - 0.05, 0]} castShadow>
+        <torusGeometry args={[0.105, 0.018, 10, 28]} />
         <PieceMaterial color={color} />
       </mesh>
+      {/* Orb */}
+      <mesh position={[0, orbY, 0]} castShadow>
+        <sphereGeometry args={[orbR, 28, 20]} />
+        <PieceMaterial color={color} />
+      </mesh>
+      {/* Crown plate */}
+      <mesh position={[0, crownPlateY, 0]} castShadow>
+        <cylinderGeometry args={[0.18, 0.15, 0.04, 28]} />
+        <PieceMaterial color={color} />
+      </mesh>
+      {/* Tiara teeth */}
       {teeth.map((p, i) => (
         <mesh key={i} position={p} castShadow>
-          <sphereGeometry args={[0.03, 10, 8]} />
+          <coneGeometry args={[0.025, 0.08, 6]} />
           <PieceMaterial color={color} />
         </mesh>
       ))}
-      {/* Finial */}
-      <mesh position={[0, finialY, 0]} castShadow>
-        <sphereGeometry args={[0.05, 12, 10]} />
+      {/* Apex */}
+      <mesh position={[0, teethY + 0.02, 0]} castShadow>
+        <sphereGeometry args={[0.04, 14, 10]} />
         <PieceMaterial color={color} />
       </mesh>
     </group>

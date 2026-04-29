@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Layout } from '@/components/Layout';
-import { useLenis } from '@/lib/lenis';
+import { useLenis, useScrollToTopOnRoute } from '@/lib/lenis';
 import { routeFade } from '@/lib/motion';
 
 const Home = lazy(() => import('@/pages/Home').then((m) => ({ default: m.Home })));
@@ -33,6 +33,7 @@ const PageWrap = ({ children }: { children: React.ReactNode }) => (
 
 export default function App() {
   useLenis();
+  useScrollToTopOnRoute();
   const location = useLocation();
 
   return (

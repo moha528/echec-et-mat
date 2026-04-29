@@ -7,26 +7,41 @@ export const Sigma = ({
   scale = 1,
 }: ChessPieceProps) => {
   const stemH = 0.32;
-  const stemY = PIECE_BASE_TOP + stemH / 2;
-  const prismH = 0.7;
-  const prismY = PIECE_BASE_TOP + stemH + prismH / 2;
-  const prismR = 0.22;
+  const stemBase = PIECE_BASE_TOP;
+  const stemTop = stemBase + stemH;
+  const prismH = 0.78;
+  const prismY = stemTop + prismH / 2 + 0.02;
+  const prismR = 0.24;
 
   return (
     <group position={position} rotation={rotation} scale={scale}>
       <PieceBase color={color} />
-      <mesh position={[0, stemY, 0]} castShadow>
-        <cylinderGeometry args={[0.14, 0.18, stemH, 24]} />
+      {/* Stem */}
+      <mesh position={[0, stemBase + stemH / 2, 0]} castShadow>
+        <cylinderGeometry args={[0.13, 0.18, stemH, 28]} />
+        <PieceMaterial color={color} />
+      </mesh>
+      {/* Collar */}
+      <mesh position={[0, stemTop + 0.01, 0]} castShadow>
+        <cylinderGeometry args={[0.22, 0.13, 0.04, 28]} />
         <PieceMaterial color={color} />
       </mesh>
       {/* Triangular prism — vertical, 3 sides */}
-      <mesh position={[0, prismY, 0]} rotation={[0, Math.PI / 6, 0]} castShadow>
-        <cylinderGeometry args={[prismR, prismR, prismH, 3]} />
+      <mesh
+        position={[0, prismY, 0]}
+        rotation={[0, Math.PI / 6, 0]}
+        castShadow
+      >
+        <cylinderGeometry args={[prismR, prismR * 0.92, prismH, 3]} />
         <PieceMaterial color={color} />
       </mesh>
       {/* Apex finial */}
-      <mesh position={[0, prismY + prismH / 2 + 0.04, 0]} castShadow>
-        <octahedronGeometry args={[0.06, 0]} />
+      <mesh
+        position={[0, prismY + prismH / 2 + 0.05, 0]}
+        rotation={[0, 0, Math.PI / 4]}
+        castShadow
+      >
+        <octahedronGeometry args={[0.07, 0]} />
         <PieceMaterial color={color} />
       </mesh>
     </group>

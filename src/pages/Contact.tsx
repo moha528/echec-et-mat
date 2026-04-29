@@ -29,7 +29,7 @@ export const Contact = () => {
 
   return (
     <article className="pt-32 pb-16">
-      <section className="max-w-page mx-auto px-6 md:px-10 lg:px-16">
+      <section className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16">
         <motion.div initial="hidden" animate="show" variants={stagger(0.1, 0.1)}>
           <motion.div variants={fadeUp}>
             <Eyebrow className="mb-5">Échange direct</Eyebrow>

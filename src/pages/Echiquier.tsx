@@ -55,8 +55,8 @@ export const Echiquier = () => {
     focusIndex >= 0 ? axes[focusIndex].id : hoveredId;
 
   return (
-    <section className="pt-28 pb-16">
-      <div className="max-w-page mx-auto px-6 md:px-10 lg:px-16">
+    <section className="pt-24 md:pt-28 pb-16">
+      <div className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16">
         <motion.div
           initial="hidden"
           animate="show"
@@ -107,7 +107,7 @@ export const Echiquier = () => {
       </div>
 
       {/* Cards (mobile + always visible as a11y / touch fallback) */}
-      <div className="max-w-page mx-auto px-6 md:px-10 lg:px-16 mt-10">
+      <div className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16 mt-10">
         <ul className="grid grid-cols-2 md:grid-cols-3 gap-px bg-line border border-line">
           {axes.map((a, i) => (
             <li key={a.id}>

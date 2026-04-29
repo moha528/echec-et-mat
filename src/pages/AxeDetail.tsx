@@ -49,7 +49,7 @@ export const AxeDetail = () => {
           </Suspense>
         </div>
 
-        <div className="relative z-10 max-w-page mx-auto px-6 md:px-10 lg:px-16 pt-20 md:pt-28">
+        <div className="relative z-10 max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16 pt-20 md:pt-28">
           <motion.div
             initial="hidden"
             animate="show"
@@ -72,7 +72,7 @@ export const AxeDetail = () => {
 
       {/* Engagements */}
       <section className="py-20 md:py-28 border-t border-line">
-        <div className="max-w-page mx-auto px-6 md:px-10 lg:px-16 grid md:grid-cols-12 gap-10">
+        <div className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16 grid md:grid-cols-12 gap-10">
           <div className="md:col-span-3">
             <Eyebrow>Engagements</Eyebrow>
           </div>
@@ -135,7 +135,7 @@ export const AxeDetail = () => {
         aria-label="Navigation entre les axes"
         className="border-t border-line py-12"
       >
-        <div className="max-w-page mx-auto px-6 md:px-10 lg:px-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <Link
             to={`/echiquier/${prev.id}`}
             className="group flex items-center gap-3 text-bone-2 hover:text-bronze transition-colors"

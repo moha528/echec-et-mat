@@ -13,7 +13,7 @@ export const Candidat = () => {
   return (
     <article className="pt-32 pb-16">
       {/* Hero — profil éditorial */}
-      <section className="max-w-page mx-auto px-6 md:px-10 lg:px-16">
+      <section className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16">
         <div className="grid md:grid-cols-12 gap-10 md:gap-16">
           <div className="md:col-span-5">
             <motion.div
@@ -69,7 +69,7 @@ export const Candidat = () => {
 
       {/* Formation */}
       <section className="mt-32 md:mt-40">
-        <div className="max-w-page mx-auto px-6 md:px-10 lg:px-16 grid md:grid-cols-12 gap-10">
+        <div className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16 grid md:grid-cols-12 gap-10">
           <div className="md:col-span-3">
             <Eyebrow>Formation</Eyebrow>
           </div>
@@ -104,7 +104,7 @@ export const Candidat = () => {
 
       {/* Postes occupés */}
       <section className="mt-32 md:mt-40">
-        <div className="max-w-page mx-auto px-6 md:px-10 lg:px-16 grid md:grid-cols-12 gap-10">
+        <div className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16 grid md:grid-cols-12 gap-10">
           <div className="md:col-span-3">
             <Eyebrow>Postes occupés</Eyebrow>
           </div>
@@ -136,7 +136,7 @@ export const Candidat = () => {
 
       {/* Grandes réalisations */}
       <section className="mt-32 md:mt-40">
-        <div className="max-w-page mx-auto px-6 md:px-10 lg:px-16">
+        <div className="max-w-page mx-auto px-5 sm:px-8 md:px-10 lg:px-16">
           <div className="mb-12">
             <Eyebrow className="mb-4">Grandes réalisations</Eyebrow>
             <h2
