@@ -21,18 +21,18 @@ export const Candidat = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="grain relative aspect-[4/5] bg-ink-2 overflow-hidden border border-line"
-              style={{ filter: 'grayscale(1) contrast(1.05)' }}
             >
-              {/* TODO: photo du candidat à fournir — placeholder typographique */}
-              <div className="absolute inset-0 flex items-end justify-center p-8">
-                <span className="font-display text-[clamp(3rem,7vw,6rem)] text-bone-3/30 leading-none">
-                  BAT
-                </span>
-              </div>
+              <img
+                src="/candidat.jpg"
+                alt="Baye Amadou Thiam"
+                loading="eager"
+                decoding="async"
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ filter: 'grayscale(0.85) contrast(1.08) brightness(0.95)' }}
+              />
             </motion.div>
             <p className="mt-3 text-[0.6875rem] tracking-eyebrow uppercase text-bone-3/60">
-              {/* TODO: photo officielle */}
-              Portrait à venir
+              Baye Amadou Thiam — portrait officiel
             </p>
           </div>
 
