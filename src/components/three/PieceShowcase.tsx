@@ -27,6 +27,7 @@ const StaticPiece = ({
     <group ref={group} position={[0, 0, 0]} rotation={[0, -0.4, 0]}>
       <PieceDispatcher
         kind={kind}
+        normalize
         scale={1.5}
         color={highlight ? '#c9a961' : '#f5e6c8'}
       />

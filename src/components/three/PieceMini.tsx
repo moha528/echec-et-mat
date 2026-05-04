@@ -33,6 +33,7 @@ const Spinner = ({
     <group ref={group} rotation={[0, -0.4, 0]}>
       <PieceDispatcher
         kind={kind}
+        normalize
         scale={1.25}
         color={highlight ? '#c9a961' : '#f5e6c8'}
       />
