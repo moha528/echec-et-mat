@@ -2,14 +2,14 @@ import { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { ContactShadows } from '@react-three/drei/core/ContactShadows.js';
 import * as THREE from 'three';
-import { King } from '@/lib/chess-pieces/King';
+import { GLBPiece } from '@/lib/chess-pieces/GLBPiece';
 import { Lights } from './Lights';
 import { prefersReducedMotion, isLowEndDevice } from '@/lib/theme';
 import { useForceCanvasResize } from './useForceCanvasResize';
 
 const ROTATION_PERIOD = 45; // seconds for full rotation — slower, more confident
 
-const RotatingKing = ({ paused }: { paused: boolean }) => {
+const RotatingHero = ({ paused }: { paused: boolean }) => {
   useForceCanvasResize();
   const group = useRef<THREE.Group>(null);
   useFrame((_, delta) => {
@@ -18,7 +18,7 @@ const RotatingKing = ({ paused }: { paused: boolean }) => {
   });
   return (
     <group ref={group} position={[0, 0, 0]}>
-      <King color="#f5e6c8" scale={1.6} />
+      <GLBPiece kind="knight" color="#f5e6c8" scale={1.6} />
     </group>
   );
 };
@@ -38,7 +38,7 @@ export const HeroScene = () => {
     >
       <color attach="background" args={['#0a0a0a']} />
       <Lights lowEnd={lowEnd} shadows={!lowEnd} />
-      <RotatingKing paused={reduce} />
+      <RotatingHero paused={reduce} />
       <ContactShadows
         position={[0, 0.001, 0]}
         opacity={0.6}

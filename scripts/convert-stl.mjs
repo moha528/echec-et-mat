@@ -17,11 +17,17 @@ const STL_DIR = resolve(__dirname, '..', 'tmp', 'stl');
 const OUT_DIR = resolve(__dirname, '..', 'public', 'models');
 mkdirSync(OUT_DIR, { recursive: true });
 
+// Per-piece overrides: bodyAxis/headAxis force the source-axis interpreted as
+// "up" (default = auto-detect via longest bounding-box dimension).
+// flipBody/flipHead flip vertically after the axis swap, useful when the
+// auto base-down/neck-down heuristic guesses wrong.
 const PIECES = [
   { name: 'king', body: 'king-body.stl', head: 'king-head.stl' },
   { name: 'queen', body: 'queen-body.stl', head: 'queen-head.stl' },
   { name: 'bishop', body: 'bishop-body.stl', head: 'bishop-head.stl' },
-  { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl' },
+  // Knight head is a horse profile — no rotational symmetry, so symmetry
+  // detection is unreliable. Force Y-up and skip the neck-down heuristic.
+  { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl', headAxis: 'y', skipNeckCheck: true },
   { name: 'rook', body: 'rook-body.stl', head: 'rook-head.stl' },
   { name: 'pawn', body: 'pawn-body.stl', head: 'pawn-head.stl' },
 ];
@@ -92,15 +98,19 @@ function computeFlatNormals(positions) {
   return normals;
 }
 
-// Pick the axis ('x'|'y'|'z') with the longest extent — assumed to be vertical
-// for chess pieces, since they're taller than they are wide.
+// Pick the axis ('x'|'y'|'z') perpendicular to the two most-equal dimensions —
+// chess pieces are rotationally symmetric around their vertical axis, so the
+// "odd one out" axis is the height (works even for squat pieces like rook).
 function pickHeightAxis(b) {
   const dx = b.maxX - b.minX;
   const dy = b.maxY - b.minY;
   const dz = b.maxZ - b.minZ;
-  if (dx >= dy && dx >= dz) return 'x';
-  if (dz >= dy && dz >= dx) return 'z';
-  return 'y';
+  const rXY = Math.abs(dx - dy) / Math.max(dx, dy);
+  const rXZ = Math.abs(dx - dz) / Math.max(dx, dz);
+  const rYZ = Math.abs(dy - dz) / Math.max(dy, dz);
+  if (rXY <= rXZ && rXY <= rYZ) return 'z';
+  if (rXZ <= rXY && rXZ <= rYZ) return 'y';
+  return 'x';
 }
 
 // Rotate so the chosen axis becomes Y. Keeps right-handedness.
@@ -171,13 +181,29 @@ for (const p of PIECES) {
   let body = parseBinarySTL(readFileSync(resolve(STL_DIR, p.body)));
   let head = parseBinarySTL(readFileSync(resolve(STL_DIR, p.head)));
 
-  const bodyAxis = pickHeightAxis(computeBounds(body));
+  const bodyBoundsRaw = computeBounds(body);
+  const bodyAxis = p.bodyAxis ?? pickHeightAxis(bodyBoundsRaw);
   swapAxisToY(body, bodyAxis);
-  ensureBaseDown(body);
+  if (p.flipBody) transformInPlace(body, (x, y, z) => [x, -y, z]);
+  else ensureBaseDown(body);
 
-  const headAxis = pickHeightAxis(computeBounds(head));
+  const headBoundsRaw = computeBounds(head);
+  const headAxis = p.headAxis ?? pickHeightAxis(headBoundsRaw);
   swapAxisToY(head, headAxis);
-  ensureNeckDown(head);
+  if (p.flipHead) transformInPlace(head, (x, y, z) => [x, -y, z]);
+  else if (p.skipNeckCheck !== true) ensureNeckDown(head);
+
+  const dxs = [
+    `${(bodyBoundsRaw.maxX - bodyBoundsRaw.minX).toFixed(1)}`,
+    `${(bodyBoundsRaw.maxY - bodyBoundsRaw.minY).toFixed(1)}`,
+    `${(bodyBoundsRaw.maxZ - bodyBoundsRaw.minZ).toFixed(1)}`,
+  ];
+  const hdxs = [
+    `${(headBoundsRaw.maxX - headBoundsRaw.minX).toFixed(1)}`,
+    `${(headBoundsRaw.maxY - headBoundsRaw.minY).toFixed(1)}`,
+    `${(headBoundsRaw.maxZ - headBoundsRaw.minZ).toFixed(1)}`,
+  ];
+  console.log(`  ${p.name}: body axis=${bodyAxis} dims=${dxs.join('×')} | head axis=${headAxis} dims=${hdxs.join('×')}`);
 
   // Center body on XZ, sit on Y=0.
   const bb = computeBounds(body);
