@@ -47,7 +47,7 @@ export const axes: Axe[] = [
         items: [
           'Garantir à tous les ayants droit une codification dans une chambre',
           'Aligner les chambres des polytechniciennes au pavillon H',
-          'Codifier à 3 personnes (pavillons A, B, C) et à 6 max au pavillon G',
+          'Codifier à 3 personnes (pavillons A, B, C) et à 7 max au pavillon G',
           'Comité de contrôle (Président, PCS, SG, ACS) contre l’hébergement illégal',
           'Campagnes de désinsectisation et de désinfection',
           'Remplacer les serrures des portes et des armoires',

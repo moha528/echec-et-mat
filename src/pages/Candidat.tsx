@@ -23,7 +23,7 @@ export const Candidat = () => {
               className="grain relative aspect-[4/5] bg-ink-2 overflow-hidden border border-line"
             >
               <img
-                src="/candidat.jpg"
+                src="/candidat.png"
                 alt="Baye Amadou Thiam"
                 loading="eager"
                 decoding="async"

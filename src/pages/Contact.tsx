@@ -5,7 +5,7 @@ import { CTA } from '@/components/CTA';
 import { Icon } from '@/components/Icon';
 import { fadeUp, stagger } from '@/lib/motion';
 
-const CANDIDATE_EMAIL = 'contact@bayethiam.sn';
+const CANDIDATE_EMAIL = 'Bayeamadou283@gmail.com';
 const WHATSAPP_DIRECT_URL = 'https://wa.me/221779331767';
 const WHATSAPP_GROUP_URL =
   'https://chat.whatsapp.com/FmTdNVOgAFFKkfp3emqHj4';
