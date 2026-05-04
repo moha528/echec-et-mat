@@ -25,7 +25,7 @@ const PIECES = [
   { name: 'king', body: 'king-body.stl', head: 'king-head.stl', skipNeckCheck: true },
   { name: 'queen', body: 'queen-body.stl', head: 'queen-head.stl', skipNeckCheck: true },
   { name: 'bishop', body: 'bishop-body.stl', head: 'bishop-head.stl', skipNeckCheck: true },
-  { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl', headAxis: 'y', skipNeckCheck: true },
+  { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl', headAxis: 'z', skipNeckCheck: true },
   { name: 'rook', body: 'rook-body.stl', head: 'rook-head.stl' },
   { name: 'pawn', body: 'pawn-body.stl', head: 'pawn-head.stl', skipNeckCheck: true },
 ];
