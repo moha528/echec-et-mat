@@ -10,19 +10,48 @@ const WHATSAPP_DIRECT_URL = 'https://wa.me/221779331767';
 const WHATSAPP_GROUP_URL =
   'https://chat.whatsapp.com/FmTdNVOgAFFKkfp3emqHj4';
 
+type Status = 'idle' | 'sending' | 'sent' | 'error';
+
+const encode = (data: Record<string, string>) =>
+  Object.keys(data)
+    .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
+    .join('&');
+
 export const Contact = () => {
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [botField, setBotField] = useState('');
+  const [status, setStatus] = useState<Status>('idle');
 
   useEffect(() => {
     document.title = 'Contact — Échec et Mat';
   }, []);
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const subject = `[Feedback EEM] ${name || 'Anonyme'}`;
-    const body = encodeURIComponent(message);
-    window.location.href = `mailto:${CANDIDATE_EMAIL}?subject=${encodeURIComponent(subject)}&body=${body}`;
+    if (status === 'sending') return;
+    setStatus('sending');
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({
+          'form-name': 'contact',
+          'bot-field': botField,
+          name,
+          email,
+          message,
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setStatus('sent');
+      setName('');
+      setEmail('');
+      setMessage('');
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -48,7 +77,26 @@ export const Contact = () => {
           </motion.p>
         </motion.div>
 
-        <form onSubmit={onSubmit} className="mt-16 max-w-2xl">
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          onSubmit={onSubmit}
+          className="mt-16 max-w-2xl"
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <p className="hidden">
+            <label>
+              Ne pas remplir :{' '}
+              <input
+                name="bot-field"
+                value={botField}
+                onChange={(e) => setBotField(e.target.value)}
+              />
+            </label>
+          </p>
+
           <div className="space-y-6">
             <label className="block">
               <span className="label text-bone-3 text-[0.6875rem]">
@@ -56,10 +104,24 @@ export const Contact = () => {
               </span>
               <input
                 type="text"
+                name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="mt-2 w-full bg-transparent border border-line focus:border-bronze focus:outline-none px-4 py-4 text-bone text-[1rem] transition-colors"
-                placeholder=""
+                required
+              />
+            </label>
+
+            <label className="block">
+              <span className="label text-bone-3 text-[0.6875rem]">
+                Ton email (pour que Baye Amadou puisse te répondre)
+              </span>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-2 w-full bg-transparent border border-line focus:border-bronze focus:outline-none px-4 py-4 text-bone text-[1rem] transition-colors"
                 required
               />
             </label>
@@ -69,6 +131,7 @@ export const Contact = () => {
                 Ton message
               </span>
               <textarea
+                name="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 rows={6}
@@ -78,10 +141,20 @@ export const Contact = () => {
             </label>
           </div>
 
-          <div className="mt-10">
-            <CTA variant="primary" type="submit">
-              Envoyer
+          <div className="mt-10 flex items-center gap-6">
+            <CTA variant="primary" type="submit" disabled={status === 'sending'}>
+              {status === 'sending' ? 'Envoi…' : 'Envoyer'}
             </CTA>
+            {status === 'sent' && (
+              <span className="text-bronze text-[0.875rem]">
+                Message envoyé. Merci.
+              </span>
+            )}
+            {status === 'error' && (
+              <span className="text-red-400 text-[0.875rem]">
+                Échec de l’envoi. Réessaie ou utilise un lien direct ci-dessous.
+              </span>
+            )}
           </div>
         </form>
 
