@@ -21,15 +21,18 @@ mkdirSync(OUT_DIR, { recursive: true });
 // "up" (default = auto-detect via longest bounding-box dimension).
 // flipBody/flipHead flip vertically after the axis swap, useful when the
 // auto base-down/neck-down heuristic guesses wrong.
+// Empirical orientation per piece (auto-detection was unreliable).
+// All bodies are Z-up in source. King/queen/bishop/pawn export with crown side
+// down (base at +Z) → need flip after the Z→Y swap. Rook is exported the
+// other way and lands correctly. Knight head has no rotational symmetry and
+// also needs a 90° Y rotation to face forward instead of sideways.
 const PIECES = [
-  { name: 'king', body: 'king-body.stl', head: 'king-head.stl' },
-  { name: 'queen', body: 'queen-body.stl', head: 'queen-head.stl' },
-  { name: 'bishop', body: 'bishop-body.stl', head: 'bishop-head.stl' },
-  // Knight head is a horse profile — no rotational symmetry, so symmetry
-  // detection is unreliable. Force Y-up and skip the neck-down heuristic.
-  { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl', headAxis: 'y', skipNeckCheck: true },
+  { name: 'king', body: 'king-body.stl', head: 'king-head.stl', flipBody: true, flipHead: true },
+  { name: 'queen', body: 'queen-body.stl', head: 'queen-head.stl', flipBody: true, flipHead: true },
+  { name: 'bishop', body: 'bishop-body.stl', head: 'bishop-head.stl', flipBody: true, flipHead: true },
+  { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl', headAxis: 'y', skipNeckCheck: true, headRotateY: Math.PI / 2 },
   { name: 'rook', body: 'rook-body.stl', head: 'rook-head.stl' },
-  { name: 'pawn', body: 'pawn-body.stl', head: 'pawn-head.stl' },
+  { name: 'pawn', body: 'pawn-body.stl', head: 'pawn-head.stl', flipBody: true, flipHead: true },
 ];
 
 function parseBinarySTL(buffer) {
@@ -192,6 +195,11 @@ for (const p of PIECES) {
   swapAxisToY(head, headAxis);
   if (p.flipHead) transformInPlace(head, (x, y, z) => [x, -y, z]);
   else if (p.skipNeckCheck !== true) ensureNeckDown(head);
+  if (p.headRotateY) {
+    const c = Math.cos(p.headRotateY);
+    const s = Math.sin(p.headRotateY);
+    transformInPlace(head, (x, y, z) => [c * x + s * z, y, -s * x + c * z]);
+  }
 
   const dxs = [
     `${(bodyBoundsRaw.maxX - bodyBoundsRaw.minX).toFixed(1)}`,
