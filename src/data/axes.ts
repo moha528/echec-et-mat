@@ -4,7 +4,7 @@ export type PieceKind =
   | 'rook'
   | 'bishop'
   | 'knight'
-  | 'sigma';
+  | 'pawn';
 
 export type GroupIcon =
   | 'bolt'
@@ -257,8 +257,8 @@ export const axes: Axe[] = [
   {
     id: 'les-maths',
     number: '06',
-    piece: 'sigma',
-    pieceLabel: 'Les Maths du Succès',
+    piece: 'pawn',
+    pieceLabel: 'Le Pion',
     title: 'Organisation & Finance',
     position: [1, 5],
     groups: [
