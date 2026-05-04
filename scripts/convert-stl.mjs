@@ -22,12 +22,12 @@ mkdirSync(OUT_DIR, { recursive: true });
 // flipBody/flipHead flip vertically after the axis swap, useful when the
 // auto base-down/neck-down heuristic guesses wrong.
 const PIECES = [
-  { name: 'king', body: 'king-body.stl', head: 'king-head.stl' },
-  { name: 'queen', body: 'queen-body.stl', head: 'queen-head.stl' },
-  { name: 'bishop', body: 'bishop-body.stl', head: 'bishop-head.stl' },
+  { name: 'king', body: 'king-body.stl', head: 'king-head.stl', flipHead: true },
+  { name: 'queen', body: 'queen-body.stl', head: 'queen-head.stl', flipHead: true },
+  { name: 'bishop', body: 'bishop-body.stl', head: 'bishop-head.stl', flipHead: true },
   { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl' },
   { name: 'rook', body: 'rook-body.stl', head: 'rook-head.stl' },
-  { name: 'pawn', body: 'pawn-body.stl', head: 'pawn-head.stl' },
+  { name: 'pawn', body: 'pawn-body.stl', head: 'pawn-head.stl', flipHead: true },
 ];
 
 function parseBinarySTL(buffer) {
