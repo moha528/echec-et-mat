@@ -21,17 +21,13 @@ mkdirSync(OUT_DIR, { recursive: true });
 // "up" (default = auto-detect via longest bounding-box dimension).
 // flipBody/flipHead flip vertically after the axis swap, useful when the
 // auto base-down/neck-down heuristic guesses wrong.
-// Bodies orient correctly via ensureBaseDown (rook proves the heuristic works).
-// Heads of king/queen/bishop/pawn are exported with their crown/finial at the
-// neck end, so ensureNeckDown picks the wrong end — force flipHead instead.
-// Knight head has no rotational symmetry and needs an explicit Y rotation.
 const PIECES = [
-  { name: 'king', body: 'king-body.stl', head: 'king-head.stl', flipHead: true },
-  { name: 'queen', body: 'queen-body.stl', head: 'queen-head.stl', flipHead: true },
-  { name: 'bishop', body: 'bishop-body.stl', head: 'bishop-head.stl', flipHead: true },
-  { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl', headAxis: 'y', skipNeckCheck: true, headRotateY: Math.PI / 2 },
+  { name: 'king', body: 'king-body.stl', head: 'king-head.stl' },
+  { name: 'queen', body: 'queen-body.stl', head: 'queen-head.stl' },
+  { name: 'bishop', body: 'bishop-body.stl', head: 'bishop-head.stl' },
+  { name: 'knight', body: 'knight-body.stl', head: 'knight-head-new.stl' },
   { name: 'rook', body: 'rook-body.stl', head: 'rook-head.stl' },
-  { name: 'pawn', body: 'pawn-body.stl', head: 'pawn-head.stl', flipHead: true },
+  { name: 'pawn', body: 'pawn-body.stl', head: 'pawn-head.stl' },
 ];
 
 function parseBinarySTL(buffer) {
